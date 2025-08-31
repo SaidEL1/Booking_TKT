@@ -1,0 +1,181 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', 'Noto Sans Arabic', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #1f2937;
+    background-color: #fafafa;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "liga" 1, "calt" 1, "kern" 1;
+  }
+
+  .rtl {
+    direction: rtl;
+    font-family: 'Noto Sans Arabic', 'Inter', system-ui, sans-serif;
+    text-align: right;
+    letter-spacing: 0.025em;
+  }
+
+  .ltr {
+    direction: ltr;
+    font-family: 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
+    text-align: left;
+    letter-spacing: -0.025em;
+  }
+
+  .rtl h1, .rtl h2, .rtl h3, .rtl h4, .rtl h5, .rtl h6 {
+    font-weight: 600;
+    letter-spacing: 0.025em;
+  }
+
+  .ltr h1, .ltr h2, .ltr h3, .ltr h4, .ltr h5, .ltr h6 {
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+}
+
+@layer components {
+  /* Professional Travel Button Components */
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-ocean-500/25;
+    background: linear-gradient(135deg, #0077B6, #005A8B);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-sunset-500/25;
+    background: linear-gradient(135deg, #FF7B00, #E56B00);
+  }
+
+  .btn-accent {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl text-gray-800 font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-golden-500/25;
+    background: linear-gradient(135deg, #FFD60A, #F59E0B);
+  }
+
+  /* Card Components */
+  .card-primary {
+    @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 p-6;
+  }
+
+  .card-gradient {
+    @apply bg-gradient-to-br from-ocean-50 to-sunset-50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 p-6;
+  }
+
+  /* Form Components */
+  .form-input {
+    @apply w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-ocean-500 focus:ring-4 focus:ring-ocean-500/25 transition-all duration-200 bg-white;
+  }
+
+  .form-select {
+    @apply w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-ocean-500 focus:ring-4 focus:ring-ocean-500/25 transition-all duration-200 bg-white appearance-none;
+  }
+
+  .form-label {
+    @apply block text-sm font-semibold text-gray-700 mb-2;
+  }
+
+  .form-error {
+    @apply text-red-600 text-sm mt-1 font-medium;
+  }
+
+  /* Focus styles for accessibility */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-4 focus:ring-ocean-500/25;
+  }
+
+  /* Typography Components */
+  .heading-xl {
+    @apply text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight;
+  }
+  
+  .heading-lg {
+    @apply text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight;
+  }
+  
+  .heading-md {
+    @apply text-xl sm:text-2xl font-semibold text-gray-900 leading-tight;
+  }
+
+  /* Status Components */
+  .status-success {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800 border border-green-200;
+  }
+  
+  .status-pending {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-200;
+  }
+}
+
+@layer utilities {
+  /* Custom gradient utilities */
+  .gradient-ocean {
+    background: linear-gradient(135deg, #0077B6, #005A8B);
+  }
+
+  .gradient-sunset {
+    background: linear-gradient(135deg, #FF7B00, #E56B00);
+  }
+
+  .gradient-golden {
+    background: linear-gradient(135deg, #FFD60A, #F59E0B);
+  }
+
+  .gradient-hero {
+    background: linear-gradient(135deg, #0077B6, #FF7B00);
+  }
+
+  /* Text gradients */
+  .text-gradient-ocean {
+    background: linear-gradient(135deg, #0077B6, #005A8B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-sunset {
+    background: linear-gradient(135deg, #FF7B00, #E56B00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Animation utilities */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Responsive text scaling */
+  @media (max-width: 640px) {
+    .heading-xl { @apply text-3xl; }
+    .heading-lg { @apply text-2xl; }
+    .heading-md { @apply text-xl; }
+  }
+}
+
+/* Custom animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .card {
+    @apply shadow-none border border-gray-300;
+  }
+}

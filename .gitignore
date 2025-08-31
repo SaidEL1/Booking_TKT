@@ -1,0 +1,25 @@
+# Ignore OS files 
+.DS_Store 
+Thumbs.db 
+# Node and Next.js 
+node_modules/ 
+.next/ 
+out/ 
+build/ 
+dist/ 
+# Env files 
+.env 
+.env.* 
+!.env.example 
+# Logs 
+logs 
+*.log 
+# IDE/editor 
+.idea/ 
+*.suo 
+*.ntvs* 
+*.njsproj 
+*.sln 
+*.sw?
+!.vscode/
+!.vscode/settings.json

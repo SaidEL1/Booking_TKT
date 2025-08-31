@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="{{ locale }}" dir="{{ dir }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ translations.bookingSuccessful }} - {{ translations.title }}</title>
+    
+    <!-- Bootstrap 5 CSS with RTL Support -->
+    {% if dir == 'rtl' %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    {% else %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% endif %}
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --success-color: #10b981;
+            --secondary-color: #6b7280;
+            --light-bg: #f8fafc;
+            --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --success-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .hero-section {
+            background: var(--light-bg);
+            border-radius: 20px;
+            box-shadow: var(--success-shadow);
+            border: 3px solid var(--success-color);
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .booking-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            border: none;
+            overflow: hidden;
+        }
+        
+        .booking-card .card-header {
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            color: white;
+            border: none;
+            padding: 1.5rem;
+        }
+        
+        .qr-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 3px dashed var(--primary-color);
+            text-align: center;
+            position: sticky;
+            top: 2rem;
+        }
+        
+        .qr-code {
+            max-width: 200px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .detail-row {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .btn-custom {
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            border: none;
+            color: white;
+        }
+        
+        .btn-success-custom {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            border: none;
+            color: white;
+        }
+        
+        .btn-secondary-custom {
+            background: linear-gradient(135deg, var(--secondary-color), #4b5563);
+            border: none;
+            color: white;
+        }
+        
+        .reference-badge {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+        }
+        
+        .info-card {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* RTL Specific Styles */
+        .rtl .btn-custom i {
+            margin-right: 0;
+            margin-left: 0.5rem;
+        }
+        
+        .ltr .btn-custom i {
+            margin-left: 0;
+            margin-right: 0.5rem;
+        }
+        
+        /* Print Styles */
+        @media print {
+            body {
+                background: white !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .booking-card {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+            }
+        }
+    </style>
+</head>
+<body class="{{ dir }}">
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-custom no-print">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/{{ locale }}">
+                <img src="/images/logo.png" alt="{{ translations.logoAlt }}" height="40" class="me-3">
+                <span class="fw-bold text-primary">{{ translations.title }}</span>
+            </a>
+            
+            <!-- Language Switcher -->
+            <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-globe"></i> {{ translations.selectLanguage }}
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/ar/confirmation?id={{ booking.id }}">العربية</a></li>
+                    <li><a class="dropdown-item" href="/en/confirmation?id={{ booking.id }}">English</a></li>
+                    <li><a class="dropdown-item" href="/fr/confirmation?id={{ booking.id }}">Français</a></li>
+                    <li><a class="dropdown-item" href="/es/confirmation?id={{ booking.id }}">Español</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <!-- Success Message Section -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8">
+                <div class="hero-section p-5 text-center fade-in">
+                    <div class="success-icon">
+                        <i class="bi bi-check-lg fs-1 text-white"></i>
+                    </div>
+                    <h1 class="display-4 fw-bold text-success mb-3">
+                        {{ translations.bookingSuccessful }}
+                    </h1>
+                    <p class="lead text-muted mb-4">
+                        {{ translations.bookingSuccessMessage }}
+                    </p>
+                    <div class="reference-badge d-inline-block">
+                        <i class="bi bi-ticket-perforated me-2"></i>
+                        {{ translations.bookingReference }}: {{ booking.id }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Booking Details Section -->
+            <div class="col-lg-8 mb-4">
+                <div class="booking-card slide-up">
+                    <div class="card-header">
+                        <h3 class="mb-0">
+                            <i class="bi bi-clipboard-check me-2"></i>
+                            {{ translations.reservationDetails }}
+                        </h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <!-- Personal Information -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="text-primary border-bottom pb-2 mb-3">
+                                    <i class="bi bi-person-circle me-2"></i>
+                                    {{ translations.personalInfo }}
+                                </h5>
+                                <div class="detail-row">
+                                    <div class="row">
+                                        <div class="col-5 fw-semibold text-muted">{{ translations.fullName }}:</div>
+                                        <div class="col-7">{{ booking.name }}</div>
+                                    </div>
+                                </div>
+                                <div class="detail-row">
+                                    <div class="row">
+                                        <div class="col-5 fw-semibold text-muted">{{ translations.email }}:</div>
+                                        <div class="col-7">{{ booking.email }}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Trip Details -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="text-primary border-bottom pb-2 mb-3">
+                                    <i class="bi bi-geo-alt me-2"></i>
+                                    {{ translations.tripDetails }}
+                                </h5>
+                                <div class="detail-row">
+                                    <div class="row">
+                                        <div class="col-5 fw-semibold text-muted">{{ translations.destination }}:</div>
+                                        <div class="col-7">{{ booking.destination }}</div>
+                                    </div>
+                                </div>
+                                <div class="detail-row">
+                                    <div class="row">
+                                        <div class="col-5 fw-semibold text-muted">{{ translations.travelDate }}:</div>
+                                        <div class="col-7">{{ booking.date | date_format }}</div>
+                                    </div>
+                                </div>
+                                <div class="detail-row">
+                                    <div class="row">
+                                        <div class="col-5 fw-semibold text-muted">{{ translations.numberOfTickets }}:</div>
+                                        <div class="col-7">{{ booking.tickets }}</div>
+                                    </div>
+                                </div>
+                                <div class="detail-row">
+                                    <div class="row">
+                                        <div class="col-5 fw-semibold text-muted">{{ translations.paymentStatus }}:</div>
+                                        <div class="col-7">
+                                            {% if booking.paid %}
+                                                <span class="badge bg-success">
+                                                    <i class="bi bi-check-circle me-1"></i>
+                                                    {{ translations.paid }}
+                                                </span>
+                                            {% else %}
+                                                <span class="badge bg-warning">
+                                                    <i class="bi bi-clock me-1"></i>
+                                                    {{ translations.pending }}
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Booking Metadata -->
+                        <div class="row mt-4 pt-4 border-top">
+                            <div class="col-12">
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar3 me-1"></i>
+                                    {{ translations.createdAt }}: {{ booking.createdAt | datetime_format }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QR Code Section -->
+            <div class="col-lg-4 mb-4">
+                <div class="qr-container slide-up">
+                    <h4 class="text-primary mb-3">
+                        <i class="bi bi-qr-code me-2"></i>
+                        {{ translations.yourTicket }}
+                    </h4>
+                    
+                    <div class="mb-3">
+                        <img src="{{ booking.qrCode }}" alt="QR Code" class="qr-code img-fluid">
+                    </div>
+                    
+                    <p class="text-muted small mb-3">
+                        {{ translations.qrCodeInstructions }}
+                    </p>
+                    
+                    <div class="info-card">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-info-circle text-primary me-2"></i>
+                            <strong class="text-primary">{{ translations.importantNote }}</strong>
+                        </div>
+                        <small class="text-muted">
+                            {{ translations.savePageOffline }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="row justify-content-center mt-5 no-print">
+            <div class="col-lg-8">
+                <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
+                    <!-- Download PDF Button -->
+                    <button onclick="downloadPDF()" class="btn btn-success-custom btn-custom flex-fill">
+                        <i class="bi bi-download"></i>
+                        {{ translations.downloadTicketPDF }}
+                    </button>
+                    
+                    <!-- View Full Ticket Button -->
+                    <a href="/{{ locale }}/ticket/{{ booking.id }}" class="btn btn-primary-custom btn-custom flex-fill">
+                        <i class="bi bi-ticket-detailed"></i>
+                        {{ translations.viewFullTicket }}
+                    </a>
+                    
+                    <!-- Return to Home Button -->
+                    <a href="/{{ locale }}" class="btn btn-secondary-custom btn-custom flex-fill">
+                        <i class="bi bi-house"></i>
+                        {{ translations.returnToHome }}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Integration Note (Optional) -->
+        {% if show_payment_info %}
+        <div class="row justify-content-center mt-4">
+            <div class="col-lg-8">
+                <div class="alert alert-info">
+                    <h6><i class="bi bi-credit-card me-2"></i>Payment Integration</h6>
+                    <p class="mb-0 small">
+                        This confirmation page appears after successful payment processing through 
+                        <strong>Stripe</strong>, <strong>PayPal</strong>, or other payment gateways. 
+                        The payment status is automatically updated in the booking record.
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap 5 JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Download PDF functionality
+        function downloadPDF() {
+            // Option 1: Use browser print functionality
+            window.print();
+            
+            // Option 2: Generate actual PDF (requires additional library like jsPDF)
+            /*
+            const element = document.querySelector('.booking-card');
+            const opt = {
+                margin: 1,
+                filename: `ticket-${booking.id}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+            */
+        }
+
+        // Auto-focus on page load for accessibility
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Add animation delays for staggered effect
+            const animatedElements = document.querySelectorAll('.slide-up');
+            animatedElements.forEach((element, index) => {
+                element.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+
+        // QR Code click to enlarge (optional)
+        document.querySelector('.qr-code').addEventListener('click', function() {
+            const modal = new bootstrap.Modal(document.createElement('div'));
+            // Implementation for QR code modal would go here
+        });
+    </script>
+</body>
+</html>
