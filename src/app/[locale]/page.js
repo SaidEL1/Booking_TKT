@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { getTranslation } from '../../lib/translations'
 import LanguageSwitcher from '../../components/LanguageSwitcher'
 import AOSWrapper from '../../components/AOSWrapper'
+import BookingLauncherLeft from '../../components/BookingLauncherLeft'
 
 export default async function HomePage({ params }) {
   const { locale } = (await params)
@@ -252,6 +253,7 @@ export default async function HomePage({ params }) {
             &copy; 2025 {t('companyName')}. {t('allRightsReserved')}.
           </p>
         </footer>
+        <BookingLauncherLeft locale={locale} />
       </main>
     </AOSWrapper>
   )

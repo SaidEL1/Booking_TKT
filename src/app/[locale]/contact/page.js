@@ -4,7 +4,7 @@ import AOSWrapper from '../../../components/AOSWrapper'
 import Image from 'next/image'
 
 export default async function ContactPage({ params }) {
-  const { locale } = params
+  const { locale } = await params
   const t = (key) => getTranslation(locale, key)
   const isRTL = locale === 'ar'
 
@@ -87,7 +87,7 @@ export default async function ContactPage({ params }) {
               <h3 className="text-2xl font-bold mb-4">{t('whatsapp')}</h3>
               <p className="text-lg mb-4">{t('primaryPhoneNumberValue')}</p>
               <a
-                href="https://wa.me/34123456789"
+                href="https://wa.me/34655742260"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block bg-white text-orange-500 px-6 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-lg"
@@ -205,7 +205,7 @@ export default async function ContactPage({ params }) {
               </h2>
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden h-96">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.4849694327143!2d-3.7037902!3d40.4167754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42287f8a7e7d7b%3A0x8b8b8b8b8b8b8b8b!2sPuerta%20del%20Sol%2C%20Madrid%2C%20Spain!5e0!3m2!1sen!2ses!4v1234567890123"
+                  src="https://www.google.com/maps?q=RGPM%2BJC%20Almería%2C%20Spain&output=embed"
                   width="100%"
                   height="100%"
                   className="border-0"
@@ -248,7 +248,7 @@ export default async function ContactPage({ params }) {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <a
-                href="https://wa.me/34123456789"
+                href="https://wa.me/34655742260"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white p-6 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl bg-gradient-to-r from-orange-500 to-orange-600"
@@ -257,7 +257,7 @@ export default async function ContactPage({ params }) {
                 {t('whatsapp')}
               </a>
               <a
-                href="tel:+34123456789"
+                href="tel:+34655742260"
                 className="text-white p-6 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl bg-gradient-to-r from-blue-600 to-blue-800"
               >
                 <div className="text-3xl mb-2">📞</div>

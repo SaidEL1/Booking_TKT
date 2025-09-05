@@ -1,4 +1,7 @@
 # Multilingual Ticket Booking System
+## 🎥 Preview
+
+![screenshot](./public/images/preview.png)
 
 A full-featured, multilingual ticket booking web application built with Next.js 13 App Router and Tailwind CSS. Supports Arabic, English, French, and Spanish with locale-based routing.
 
@@ -217,3 +220,44 @@ This project is open source and available under the MIT License.
 ## Support
 
 For issues and questions, please check the troubleshooting section above or review the code comments for detailed implementation notes.
+--------------------------------------------------
+ ![demo](./public/images/booking-demo.gif)
+
+
+A full-featured, multilingual ticket booking web application built with **Next.js (App Router)** and **Tailwind CSS**. Supports **Arabic**, **English**, **French**, and **Spanish** with locale-based routing and proper RTL for Arabic.
+
+[![Node](https://img.shields.io/badge/node-20.x-blue.svg)](#) [![Next.js](https://img.shields.io/badge/nextjs-app--router-black.svg)](#) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](#)
+
+## Table of Contents
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [API](#api)
+- [Development](#development)
+- [Production](#production-deployment)
+- [Security & Privacy](#security--privacy)
+- [Troubleshooting](#troubleshooting)
+- [Roadmap](#roadmap)
+- [License](#license)
+
+## Features
+- 🌍 **Multilingual Support**: ar / en / fr / es
+- 🎫 **Booking System**: validation, JSON persistence, QR code generation
+- 📧 **Email Confirmation**: nodemailer with QR attachment
+- 📱 **Responsive UI**: Tailwind + RTL for Arabic
+- 🔒 **Data Persistence**: JSON file-based storage
+- 🧭 **Locale Routing**: `/[locale]/...`
+
+## Tech Stack
+- **Framework**: Next.js (App Router)
+- **Styling**: Tailwind CSS
+- **QR**: `qrcode`
+- **Email**: `nodemailer`
+- **IDs**: `uuid`
+- **Lang**: JavaScript/React
+
+## Project Structure
