@@ -277,11 +277,11 @@ export default function BookingLauncherLeft({ locale = 'ar' }) {
                     className="
             relative bg-white rounded-2xl shadow-2xl border border-blue-200
             w-[85vw] max-w-[270px] md:max-w-[280px]
-            overflow-hidden
+            flex flex-col max-h-[75vh]
           "
                 >
                     {/* هيدر أصغر مع زر X يعمل */}
-                    <div className={`h-12 flex items-center justify-between px-3 ${headerGradient}`}>
+                    <div className={`h-12 flex-shrink-0 flex items-center justify-between px-3 ${headerGradient}`}>
                         <span className="text-sm font-bold flex items-center gap-2">🎫 {t.quick}</span>
                         <button
                             type="button"
@@ -297,7 +297,7 @@ export default function BookingLauncherLeft({ locale = 'ar' }) {
                     </div>
 
                     {/* جسم النافذة: مصغّر ومختصر */}
-                    <div className="p-3 bg-gray-50 space-y-3">
+                    <div className="p-3 bg-gray-50 space-y-3 overflow-y-auto">
                         {/* Promo banner */}
                         <div className={`rounded-xl text-[13px] px-3 py-2 font-semibold border animate-pulse flex items-center justify-between ${bannerColor}`}>
                             <span className="flex items-center gap-2">
