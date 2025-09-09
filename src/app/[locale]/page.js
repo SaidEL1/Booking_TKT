@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { getTranslation } from '../../lib/translations'
 import LanguageSwitcher from '../../components/LanguageSwitcher'
 import AOSWrapper from '../../components/AOSWrapper'
@@ -28,13 +27,14 @@ export default async function HomePage({ params }) {
           {/* Logo + Brand Name - Centered */}
           <div className="flex items-center gap-3">
             <Link href={`/${locale}`} className="flex items-center gap-3 hover:opacity-80 transition-opacity duration-300">
-              <Image
+              <img
                 src="/logo.png"
                 alt={t('logoAlt')}
                 width={80}
                 height={80}
                 className="w-16 h-16 object-contain drop-shadow-lg"
-                priority
+                loading="eager"
+                decoding="sync"
               />
               <span className="hidden md:block text-white font-bold text-xl" style={{ color: '#FFD60A' }}>
                 {t('brandName')}

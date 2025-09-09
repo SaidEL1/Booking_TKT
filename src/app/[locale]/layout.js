@@ -1,4 +1,3 @@
-
 import '../globals.css';
 import { getTranslation } from '../../lib/translations';
 import AOSWrapper from '../../components/AOSWrapper';
@@ -28,18 +27,16 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function RootLayout({ children, params }) {
+export default async function LocaleLayout({ children, params }) {
   const { locale } = await params;
   const currentLocale = locale || 'ar';
   const isRTL = currentLocale === 'ar';
 
   return (
-    <html lang={currentLocale} dir={isRTL ? 'rtl' : 'ltr'} suppressHydrationWarning>
-      <body>
-        <AOSWrapper>
-          {children}
-        </AOSWrapper>
-      </body>
-    </html>
+    <div dir={isRTL ? 'rtl' : 'ltr'}>
+      <AOSWrapper>
+        {children}
+      </AOSWrapper>
+    </div>
   );
 }
