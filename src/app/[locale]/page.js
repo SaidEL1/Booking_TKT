@@ -11,7 +11,7 @@ export default async function HomePage({ params }) {
 
   return (
     <AOSWrapper>
-      <main className={`bg-gradient-to-b from-gray-50 via-white to-gray-50 text-gray-900 font-sans dark:bg-gray-900 dark:text-white ${isRTL ? 'rtl' : 'ltr'}`} style={{ backgroundColor: '#F8F9FA', color: '#212529' }}>
+      <main className={`overflow-x-hidden bg-gradient-to-b from-gray-50 via-white to-gray-50 text-gray-900 font-sans dark:bg-gray-900 dark:text-white ${isRTL ? 'rtl' : 'ltr'}`} style={{ backgroundColor: '#F8F9FA', color: '#212529' }}>
         {/* Header */}
         <header className="sticky top-0 z-50 backdrop-blur-md shadow-md px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4" style={{ backgroundColor: '#0077B6' }}>
           {/* Book Your Ticket Button */}
