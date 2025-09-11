@@ -202,7 +202,7 @@ export default async function HomePage({ params }) {
                     <span className="text-xl">📧</span>
                   </div>
                   <div>
-                    <p className="font-semibold" style={{ color: '#212529' }}>elmansouris744@gmail.com</p>
+                    <p className="font-semibold" style={{ color: '#212529' }}>nasseragencia@gmail.com</p>
                     <p className="text-sm text-gray-600">{t('email')}</p>
                   </div>
                 </div>

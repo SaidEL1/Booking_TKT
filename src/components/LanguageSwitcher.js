@@ -4,10 +4,10 @@ import { useState, useRef, useEffect } from 'react'
 import { GlobeAltIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 
 const languages = [
+  { code: 'es', name: 'Español', flag: '🇪🇸' },
   { code: 'ar', name: 'العربية', flag: '🇸🇦' },
   { code: 'en', name: 'English', flag: '🇺🇸' },
   { code: 'fr', name: 'Français', flag: '🇫🇷' },
-  { code: 'es', name: 'Español', flag: '🇪🇸' },
 ]
 
 export default function LanguageSwitcher({ currentLocale, currentPath = '' }) {

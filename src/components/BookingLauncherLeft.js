@@ -245,43 +245,45 @@ export default function BookingLauncherLeft({ locale = 'ar' }) {
                 <button
                     type="button"
                     onClick={() => setOpen(true)}
-                    className="fixed left-3 bottom-24 z-50
-                     md:left-4 md:bottom-28
-                     bg-gradient-to-r from-blue-600 to-blue-700 text-white
-                     rounded-full shadow-lg px-4 py-2 text-sm font-semibold
-                     hover:from-blue-700 hover:to-blue-800 transition"
+                    className={`fixed z-50 text-white rounded-full shadow-lg px-4 py-2 text-sm font-semibold transition hover:brightness-110 ${locale === 'ar' ? 'right-4' : 'left-4'} bottom-24 md:bottom-28 ${headerGradient}`}
                     aria-label={t.quick}
                 >
                     🎫 {t.quick}
                 </button>
             )}
 
-            {/* طبقة خفيفة للموبايل فقط لتسهيل الإغلاق بالضغط خارج النافذة */}
-            {open && (
-                <div className="fixed inset-0 z-40 bg-black/10 md:bg-transparent" />
-            )}
-
-            {/* البانِل الثابت: مُثبت يسار الشاشة، ومقاسه صغير */}
+            {/* Backdrop overlay for mobile */}
             <div
-                className={`
-          fixed z-50
-          bottom-20 left-3
-          md:bottom-24 md:left-4
-          transition-all duration-300
-          ${open ? 'opacity-100 translate-y-0' : 'opacity-0 pointer-events-none translate-y-3'}
-        `}
-                style={{ direction: 'rtl' }} // للعرض العربي
+                className={`fixed inset-0 z-40 bg-black/40 transition-opacity md:hidden ${open ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                onClick={close}
+            />
+
+            {/* Main Panel */}
+            <div
                 ref={panelRef}
+                className={`
+                    fixed z-50 transition-all duration-300 ease-in-out
+                    ${open ? 'opacity-100 translate-y-0' : 'opacity-0 pointer-events-none translate-y-full'}
+                    
+                    md:opacity-100 md:translate-y-0 md:pointer-events-auto
+                    ${open ? 'md:opacity-100' : 'md:opacity-0 md:pointer-events-none'}
+
+                    /* Mobile styles: bottom sheet */
+                    inset-x-0 bottom-0 md:inset-auto ${locale === 'ar' ? 'md:right-4' : 'md:left-4'} md:bottom-24
+                `}
             >
                 <div
                     className="
-            relative bg-white rounded-2xl shadow-2xl border border-blue-200
-            w-[85vw] max-w-[270px] md:max-w-[280px]
-            flex flex-col max-h-[75vh]
-          "
+                        relative bg-white shadow-2xl border border-gray-200
+                        flex flex-col
+                        /* Mobile styles */
+                        h-[80vh] rounded-t-2xl
+                        /* Desktop styles */
+                        md:h-auto md:max-h-[75vh] md:w-[280px] md:rounded-2xl
+                    "
                 >
-                    {/* هيدر أصغر مع زر X يعمل */}
-                    <div className={`h-12 flex-shrink-0 flex items-center justify-between px-3 ${headerGradient}`}>
+                    {/* Header */}
+                    <div className={`h-12 flex-shrink-0 flex items-center justify-between px-4 text-white ${headerGradient} rounded-t-2xl md:rounded-t-xl`}>
                         <span className="text-sm font-bold flex items-center gap-2">🎫 {t.quick}</span>
                         <button
                             type="button"
@@ -296,8 +298,8 @@ export default function BookingLauncherLeft({ locale = 'ar' }) {
                         </button>
                     </div>
 
-                    {/* جسم النافذة: مصغّر ومختصر */}
-                    <div className="p-3 bg-gray-50 space-y-3 overflow-y-auto">
+                    {/* Form Body */}
+                    <div className="p-4 bg-gray-50 space-y-3 overflow-y-auto">
                         {/* Promo banner */}
                         <div className={`rounded-xl text-[13px] px-3 py-2 font-semibold border animate-pulse flex items-center justify-between ${bannerColor}`}>
                             <span className="flex items-center gap-2">

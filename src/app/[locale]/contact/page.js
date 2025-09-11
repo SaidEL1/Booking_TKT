@@ -264,7 +264,7 @@ export default async function ContactPage({ params }) {
                 {t('directCall')}
               </a>
               <a
-                href="mailto:info@example.com"
+                href="mailto:nasseragencia@gmail.com"
                 className="text-gray-900 p-6 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl bg-gradient-to-r from-yellow-400 to-yellow-500"
               >
                 <div className="text-3xl mb-2">✉️</div>
