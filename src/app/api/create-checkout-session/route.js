@@ -27,15 +27,23 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
     }
 
-    const { bookingId, currency = 'eur', locale = 'en', successUrl, cancelUrl } = await request.json()
+    const body = await request.json()
+    const { bookingId, currency = 'eur', locale = 'en' } = body || {}
 
     if (!process.env.STRIPE_SECRET_KEY) {
       return NextResponse.json({ error: 'Stripe not configured on server' }, { status: 500 })
     }
 
-    if (!bookingId || !successUrl || !cancelUrl) {
-      return NextResponse.json({ error: 'Missing required fields: bookingId, successUrl, cancelUrl' }, { status: 400 })
+    if (!bookingId) {
+      return NextResponse.json({ error: 'Missing required field: bookingId' }, { status: 400 })
     }
+
+    // Build canonical HTTPS base URL from the request host to avoid non-HTTPS callbacks in live
+    const host = request.headers.get('x-forwarded-host') || request.headers.get('host') || 'agencianasseralmeria.com'
+    const protocol = 'https' // force https for live
+    const baseUrl = `${protocol}://${host}`
+    const successUrl = `${baseUrl}/${locale}/confirmation?id=${bookingId}&payment=success&session_id={CHECKOUT_SESSION_ID}`
+    const cancelUrl = `${baseUrl}/${locale}/payment-confirm?id=${bookingId}&payment=cancelled`
 
     // Calculate amount on the server from persisted booking
     const BOOKINGS_FILE = path.join(process.cwd(), 'data', 'bookings.json')
@@ -97,8 +105,8 @@ export async function POST(request) {
         },
       ],
       mode: 'payment',
-      success_url: successUrl, // should contain &session_id={CHECKOUT_SESSION_ID}
-      cancel_url: cancelUrl,
+      success_url: successUrl, // always https
+      cancel_url: cancelUrl,   // always https
       metadata: {
         bookingId: bookingId,
         locale: locale,
