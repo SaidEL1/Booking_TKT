@@ -97,7 +97,8 @@ export default function PaymentMethods({ booking, locale, onPaymentSuccess }) {
     setError(null)
 
     try {
-      // Create Stripe checkout session
+      const origin = typeof window !== 'undefined' ? window.location.origin : ''
+      // Create Stripe checkout session (server computes amount & uses EUR)
       const response = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: {
@@ -105,18 +106,17 @@ export default function PaymentMethods({ booking, locale, onPaymentSuccess }) {
         },
         body: JSON.stringify({
           bookingId: booking.id,
-          amount: (booking.tickets * 50 + 5) * 100, // Amount in cents
-          currency: 'usd',
+          currency: 'eur',
           locale: locale,
-          successUrl: `${window.location.origin}/${locale}/confirmation?id=${booking.id}&payment=success`,
-          cancelUrl: `${window.location.origin}/${locale}/payment-confirm?id=${booking.id}&payment=cancelled`
+          successUrl: `${origin}/${locale}/confirmation?id=${booking.id}&payment=success&session_id={CHECKOUT_SESSION_ID}`,
+          cancelUrl: `${origin}/${locale}/payment-confirm?id=${booking.id}&payment=cancelled`
         }),
       })
 
       const session = await response.json()
 
-      if (session.error) {
-        setError(session.error)
+      if (!response.ok || session.error) {
+        setError(session.error || 'Stripe session error')
         return
       }
 

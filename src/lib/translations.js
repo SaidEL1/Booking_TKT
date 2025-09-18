@@ -100,6 +100,7 @@ export const translations = {
     dog: 'كلب',
     bird: 'طائر',
     other: 'أخرى',
+    travelingWithPets: 'أصطحب حيوانات أليفة',
 
     // Vehicle
     vehicleType: 'نوع المركبة',
@@ -188,7 +189,7 @@ export const translations = {
     lastNamePlaceholder: 'أدخل اسمك الأخير',
     emailPlaceholder: 'أدخل بريدك الإلكتروني',
     phoneNumber: 'رقم الهاتف',
-    phonePlaceholder: 'أدخل رقم هاتفك',
+    phonePlaceholder: '+34 xxx xxx xxx',
     serviceNeeded: 'الخدمة المطلوبة',
     selectService: 'اختر خدمة',
     appointments: 'حجز المواعيد',
@@ -403,6 +404,7 @@ export const translations = {
     dog: 'Dog',
     bird: 'Bird',
     other: 'Other',
+    travelingWithPets: 'Traveling with pets',
 
     // Vehicle
     vehicleType: 'Vehicle Type',
@@ -701,6 +703,7 @@ export const translations = {
     dog: 'Chien',
     bird: 'Oiseau',
     other: 'Autre',
+    travelingWithPets: 'Voyager avec des animaux',
     vehicle: 'Véhicule',
     noVehicle: 'Pas de véhicule',
     car: 'Voiture',
@@ -890,10 +893,11 @@ export const translations = {
     dog: 'Perro',
     bird: 'Pájaro',
     other: 'Otro',
+    travelingWithPets: 'Viajar con mascotas',
     vehicle: 'Vehículo',
     noVehicle: 'Sin vehículo',
     car: 'Coche',
-    motorcycle: 'Motocicleta',
+    motorcycle: 'Moto',
     bicycle: 'Bicicleta',
     nextStep: 'Siguiente paso',
     bookingSummary: 'Resumen de la reserva',

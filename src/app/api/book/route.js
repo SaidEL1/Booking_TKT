@@ -68,7 +68,7 @@ async function generateQRCode(bookingId, bookingData) {
       locale: bookingData.locale,
       createdAt: bookingData.createdAt
     })
-    
+
     const qrCodePath = path.join(QR_CODES_DIR, `${bookingId}.png`)
     await QRCode.toFile(qrCodePath, qrData)
     return `/qrcodes/${bookingId}.png`
@@ -95,7 +95,7 @@ async function sendConfirmationEmail(booking) {
     })
 
     const qrCodePath = path.join(process.cwd(), 'public', booking.qrCode)
-    
+
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: booking.email,
@@ -152,14 +152,14 @@ async function sendConfirmationEmail(booking) {
 export async function POST(request) {
   try {
     ensureDirectories()
-    
+
     const body = await request.json()
-    console.log('Received booking data:', body) // Debug log
-    
-    const { 
-      name, 
-      destination, 
-      departureDate, 
+    // Removed verbose body logging to avoid leaking PII in production
+
+    const {
+      name,
+      destination,
+      departureDate,
       returnDate,
       tripType,
       adults,
@@ -169,11 +169,11 @@ export async function POST(request) {
       hasPets,
       petType,
       vehicleType,
-      email, 
-      paid, 
+      email,
+      paid,
       paymentMethod,
       paymentStatus,
-      locale 
+      locale
     } = body
 
     // Validate required fields
@@ -190,7 +190,7 @@ export async function POST(request) {
 
     // Generate unique booking ID
     const bookingId = uuidv4()
-    
+
     // Create booking object
     const booking = {
       id: bookingId,

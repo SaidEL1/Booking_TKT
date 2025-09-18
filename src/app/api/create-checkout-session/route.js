@@ -1,21 +1,79 @@
 import { NextResponse } from 'next/server'
+import fs from 'fs'
+import path from 'path'
+import Stripe from 'stripe'
 
-// Debug: Check if Stripe key is loaded properly
-console.log(' Stripe Debug Info:')
-console.log('- Key exists:', !!process.env.STRIPE_SECRET_KEY)
-console.log('- Key length:', process.env.STRIPE_SECRET_KEY?.length)
-console.log('- Key starts with:', process.env.STRIPE_SECRET_KEY?.substring(0, 25))
-console.log('- Key ends with:', process.env.STRIPE_SECRET_KEY?.substring(-10))
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+// Simple in-memory IP rate limiter
+const ipHits = new Map()
+const WINDOW_MS = 5 * 60 * 1000 // 5 minutes
+const MAX_REQUESTS = 20 // per window per IP
+
+function isRateLimited(req) {
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+  const now = Date.now()
+  const windowStart = now - WINDOW_MS
+  const arr = ipHits.get(ip) || []
+  const recent = arr.filter((t) => t > windowStart)
+  recent.push(now)
+  ipHits.set(ip, recent)
+  return recent.length > MAX_REQUESTS
+}
 
 export async function POST(request) {
   try {
-    const { bookingId, amount, currency = 'usd', locale = 'en', successUrl, cancelUrl } = await request.json()
-
-    if (!bookingId || !amount) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    if (isRateLimited(request)) {
+      return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
     }
+
+    const { bookingId, currency = 'eur', locale = 'en', successUrl, cancelUrl } = await request.json()
+
+    if (!process.env.STRIPE_SECRET_KEY) {
+      return NextResponse.json({ error: 'Stripe not configured on server' }, { status: 500 })
+    }
+
+    if (!bookingId || !successUrl || !cancelUrl) {
+      return NextResponse.json({ error: 'Missing required fields: bookingId, successUrl, cancelUrl' }, { status: 400 })
+    }
+
+    // Calculate amount on the server from persisted booking
+    const BOOKINGS_FILE = path.join(process.cwd(), 'data', 'bookings.json')
+    let amountInCents = null
+    let tickets = 0
+    let destination = ''
+    let name = ''
+    let email = ''
+    if (fs.existsSync(BOOKINGS_FILE)) {
+      try {
+        const data = JSON.parse(fs.readFileSync(BOOKINGS_FILE, 'utf8'))
+        const booking = Array.isArray(data) ? data.find(b => b.id === bookingId) : null
+        if (booking) {
+          name = booking.name || ''
+          email = booking.email || ''
+          tickets = Number(booking.tickets || 0)
+          destination = booking.destination || ''
+          const ticketsTotal = tickets * 50
+          const serviceFee = 5
+          amountInCents = Math.round((ticketsTotal + serviceFee) * 100)
+        }
+      } catch (e) {
+        console.error('Failed to read bookings for amount calc:', e)
+      }
+    }
+
+    if (!name || !email) {
+      return NextResponse.json({ error: 'Missing booking contact fields: name, email' }, { status: 400 })
+    }
+
+    if (!amountInCents || amountInCents <= 0) {
+      return NextResponse.json({ error: 'Unable to calculate amount for booking' }, { status: 400 })
+    }
+
+    // Build a short suffix for the bank statement (max 22 chars total with account prefix)
+    const shortId = bookingId.slice(0, 6).toUpperCase()
+    // NOTE: Stripe combines account-level prefix with this suffix. Keep it short and ASCII only.
+    const statementSuffix = `BOOK ${shortId}` // e.g., "BOOK ABC123"
 
     // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
@@ -28,40 +86,41 @@ export async function POST(request) {
               name: 'Ticket Booking',
               description: `Booking ID: ${bookingId}`,
             },
-            unit_amount: amount, // Amount in cents
+            unit_amount: amountInCents,
           },
           quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: successUrl,
+      success_url: successUrl, // should contain &session_id={CHECKOUT_SESSION_ID}
       cancel_url: cancelUrl,
       metadata: {
         bookingId: bookingId,
         locale: locale,
+        destination,
+        name,
+        email,
       },
-      locale: locale === 'ar' ? 'auto' : locale, // Stripe doesn't support Arabic directly
+      locale: locale === 'ar' ? 'auto' : locale,
       billing_address_collection: 'required',
       payment_intent_data: {
         metadata: {
           bookingId: bookingId,
         },
+        // Statement descriptor (keep ASCII and within Stripe limits)
+        statement_descriptor_suffix: statementSuffix,
       },
     })
 
     return NextResponse.json({ id: session.id, url: session.url })
   } catch (error) {
     console.error('❌ Stripe session creation error:', error)
-    
-    // Check if it's a Stripe authentication error
     if (error.type === 'StripeAuthenticationError') {
-      console.error('🔑 Stripe API key is invalid or expired')
       return NextResponse.json(
         { error: 'Invalid Stripe configuration. Please check your API keys.' },
         { status: 401 }
       )
     }
-    
     return NextResponse.json(
       { error: 'Failed to create checkout session', details: error.message },
       { status: 500 }

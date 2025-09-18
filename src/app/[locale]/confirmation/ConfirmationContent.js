@@ -18,6 +18,7 @@ export default function ConfirmationContent({ bookingId, locale, searchParams })
   const paymentStatus = searchParams?.payment
   const paymentMethod = searchParams?.method
   const paymentId = searchParams?.paymentId
+  const sessionId = searchParams?.session_id
 
   useEffect(() => {
     const fetchBooking = async () => {
@@ -40,6 +41,26 @@ export default function ConfirmationContent({ bookingId, locale, searchParams })
       fetchBooking()
     }
   }, [bookingId])
+
+  // If returning from Stripe with session_id, verify server-side and refresh booking
+  useEffect(() => {
+    const verifyStripe = async () => {
+      try {
+        if (sessionId && bookingId) {
+          await fetch(`/api/stripe/session?session_id=${encodeURIComponent(sessionId)}&bookingId=${encodeURIComponent(bookingId)}`)
+          // After verification, refresh booking details to reflect paid status
+          const res = await fetch(`/api/booking/${bookingId}`)
+          if (res.ok) {
+            const data = await res.json()
+            setBooking(data)
+          }
+        }
+      } catch (e) {
+        console.error('Stripe verification failed', e)
+      }
+    }
+    verifyStripe()
+  }, [sessionId, bookingId])
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)
