@@ -117,11 +117,17 @@ export default function PaymentMethods({ booking, locale, onPaymentSuccess }) {
       const session = await response.json()
 
       if (!response.ok || session.error) {
-        setError(session.error || 'Stripe session error')
+        setError(session.error || `Stripe session error (status ${response.status})`)
         return
       }
 
-      // Redirect to Stripe Checkout
+      // Prefer redirecting via the server-provided URL to avoid client PK issues
+      if (session.url) {
+        window.location.href = session.url
+        return
+      }
+
+      // Fallback: use redirectToCheckout with sessionId
       const stripe = window.Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || 'pk_test_demo')
       const { error } = await stripe.redirectToCheckout({
         sessionId: session.id,
