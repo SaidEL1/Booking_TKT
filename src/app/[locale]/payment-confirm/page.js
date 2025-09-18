@@ -65,8 +65,9 @@ export default function PaymentConfirmPage({ params, searchParams }) {
   }
 
   const calculateTotal = () => {
-    const basePrice = 50
-    const serviceFee = 5
+    // TODO: revert after live test - was: basePrice = 50, serviceFee = 5
+    const basePrice = 1  // Test: €1 per ticket
+    const serviceFee = 0 // Test: no service fee
     const total = (booking?.tickets || 0) * basePrice + serviceFee
     return total.toFixed(2)
   }
@@ -331,12 +332,14 @@ export default function PaymentConfirmPage({ params, searchParams }) {
 
                     <div className="bg-gradient-to-br from-gray-50 to-gray-100/50 rounded-2xl p-6 space-y-4">
                       <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                        <span className="text-gray-700 font-medium">{t('ticketPrice')} ({booking.tickets} × {t('currencySymbol')}50)</span>
-                        <span className="font-bold text-gray-900">{t('currencySymbol')}{(booking.tickets * 50).toFixed(2)}</span>
+                        {/* TODO: revert after live test - was: 50 */}
+                        <span className="text-gray-700 font-medium">{t('ticketPrice')} ({booking.tickets} × {t('currencySymbol')}1)</span>
+                        <span className="font-bold text-gray-900">{t('currencySymbol')}{(booking.tickets * 1).toFixed(2)}</span>
                       </div>
                       <div className="flex justify-between items-center py-3 border-b border-gray-200">
                         <span className="text-gray-700 font-medium">{t('serviceFee')}</span>
-                        <span className="font-bold text-gray-900">{t('currencySymbol')}5.00</span>
+                        {/* TODO: revert after live test - was: 5.00 */}
+                        <span className="font-bold text-gray-900">{t('currencySymbol')}0.00</span>
                       </div>
                       <div className="flex justify-between items-center py-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl px-4 border-2 border-indigo-200">
                         <span className="text-xl font-bold text-gray-900">{t('totalAmount')}</span>

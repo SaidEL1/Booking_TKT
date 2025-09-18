@@ -48,7 +48,8 @@ export default function PaymentMethods({ booking, locale, onPaymentSuccess }) {
           return actions.order.create({
             purchase_units: [{
               amount: {
-                value: (booking.tickets * 50 + 5).toFixed(2) // Calculate total amount
+                // TODO: revert after live test - was: (booking.tickets * 50 + 5).toFixed(2)
+                value: (booking.tickets * 1 + 0).toFixed(2) // Test: €1 per ticket, no service fee
               },
               description: `${t('ticketBookingFor')} ${booking.destination} - ${booking.tickets} ${t('tickets')}`
             }]
@@ -270,7 +271,8 @@ export default function PaymentMethods({ booking, locale, onPaymentSuccess }) {
             <div className="bg-gray-50/50 rounded-xl p-4">
               <div className="flex justify-between items-center text-lg font-bold">
                 <span>{t('totalAmount')}:</span>
-                <span className="text-green-600">{t('currencySymbol')}{(booking.tickets * 50 + 5).toFixed(2)}</span>
+                {/* TODO: revert after live test - was: (booking.tickets * 50 + 5).toFixed(2) */}
+                <span className="text-green-600">{t('currencySymbol')}{(booking.tickets * 1 + 0).toFixed(2)}</span>
               </div>
             </div>
           </div>
