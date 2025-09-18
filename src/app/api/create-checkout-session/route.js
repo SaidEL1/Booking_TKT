@@ -53,8 +53,13 @@ export async function POST(request) {
           email = booking.email || ''
           tickets = Number(booking.tickets || 0)
           destination = booking.destination || ''
-          const ticketsTotal = tickets * 50
-          const serviceFee = 5
+          // TODO: revert after live test
+          // const ticketsTotal = tickets * 50
+          // const serviceFee = 5
+          // amountInCents = Math.round((ticketsTotal + serviceFee) * 100)
+          const testUnitPriceEUR = 1 // charge €1 per ticket for live test
+          const serviceFee = 0      // disable service fee for now
+          const ticketsTotal = tickets * testUnitPriceEUR
           amountInCents = Math.round((ticketsTotal + serviceFee) * 100)
         }
       } catch (e) {
